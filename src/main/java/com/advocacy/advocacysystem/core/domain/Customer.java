@@ -1,5 +1,6 @@
 package com.advocacy.advocacysystem.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private Set<Contact> contacts = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "customers")
     Set<Lawsuit> lawsuits = new HashSet<>();
 

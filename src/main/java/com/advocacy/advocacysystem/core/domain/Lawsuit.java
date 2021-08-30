@@ -35,4 +35,16 @@ public class Lawsuit {
 
     private LocalDateTime createdAt;
 
+    public void update(Lawsuit lawsuitUpdate) {
+        this.number = lawsuitUpdate.getNumber();
+        this.description = lawsuitUpdate.getDescription();
+    }
+
+    public void addCustomers(Set<Customer> customers) {
+        this.customers.addAll(customers);
+    }
+
+    public void removeCustomers(Set<Customer> customers) {
+        this.customers.removeAll(customers);
+    }
 }

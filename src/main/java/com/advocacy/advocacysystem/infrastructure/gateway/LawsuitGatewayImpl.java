@@ -35,4 +35,9 @@ public class LawsuitGatewayImpl implements LawsuitGateway {
     public Page<Lawsuit> getAll(Pageable pageable) {
         return lawsuitRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Lawsuit> getByCustomerId(Long customerId, Pageable pageable) {
+        return lawsuitRepository.findByCustomersId(customerId, pageable);
+    }
 }

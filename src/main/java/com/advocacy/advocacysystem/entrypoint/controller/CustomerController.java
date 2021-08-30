@@ -54,7 +54,7 @@ public class CustomerController {
     }
 
     @ApiOperation(value = "Adiciona Contatos ao cliente")
-    @PostMapping("/{id}/add-contacts")
+    @PostMapping("/{id}/add-contact")
     public ResponseEntity<Void> addContacts(@PathVariable("id") Long customerId,
                                                @RequestBody ContactCreateDTO contact){
         addContactToCustomerUseCase.execute(customerId, contact.toContact());

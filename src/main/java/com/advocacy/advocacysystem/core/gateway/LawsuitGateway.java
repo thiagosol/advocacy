@@ -6,11 +6,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface LawsuitGateway {
 
-    public Lawsuit save(Lawsuit lawsuit);
+    Lawsuit save(Lawsuit lawsuit);
 
-    public void update(Lawsuit lawsuit);
+    void update(Lawsuit lawsuit);
 
-    public Lawsuit getById(Long id);
+    Lawsuit getById(Long id);
 
-    public Page<Lawsuit> getAll(Pageable pageable);
+    Page<Lawsuit> getAll(Pageable pageable);
+
+    Page<Lawsuit> getByCustomerId(Long customerId, Pageable pageable);
 }
