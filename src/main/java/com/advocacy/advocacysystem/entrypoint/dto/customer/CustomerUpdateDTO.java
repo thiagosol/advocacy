@@ -1,4 +1,4 @@
-package com.advocacy.advocacysystem.entrypoint.dto;
+package com.advocacy.advocacysystem.entrypoint.dto.customer;
 
 import com.advocacy.advocacysystem.core.domain.Customer;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +18,7 @@ public class CustomerUpdateDTO {
     @ApiModelProperty("Cpf ou CNPJ do Cliente")
     private String cpfCnpj;
 
-    public Customer getCustomer(Long customerId) {
-        return new Customer(customerId, this.name, this.cpfCnpj, null, LocalDateTime.now());
+    public Customer toCustomer(Long customerId) {
+        return new Customer(customerId, this.name, this.cpfCnpj, null, null, LocalDateTime.now());
     }
 }

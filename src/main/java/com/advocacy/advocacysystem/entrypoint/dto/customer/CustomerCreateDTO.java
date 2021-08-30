@@ -1,4 +1,4 @@
-package com.advocacy.advocacysystem.entrypoint.dto;
+package com.advocacy.advocacysystem.entrypoint.dto.customer;
 
 import com.advocacy.advocacysystem.core.domain.Customer;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,8 +21,8 @@ public class CustomerCreateDTO {
     @ApiModelProperty("Lista de contatos")
     private Set<ContactCreateDTO> contacts = new HashSet<>();
 
-    public Customer getCustomer() {
-        var contacts = this.contacts.stream().map(ContactCreateDTO::getContact).collect(Collectors.toSet());
-        return new Customer(null, this.name, this.cpfCnpj, contacts, LocalDateTime.now());
+    public Customer toCustomer() {
+        var contacts = this.contacts.stream().map(ContactCreateDTO::toContact).collect(Collectors.toSet());
+        return new Customer(null, this.name, this.cpfCnpj, contacts, new HashSet<>(), LocalDateTime.now());
     }
 }

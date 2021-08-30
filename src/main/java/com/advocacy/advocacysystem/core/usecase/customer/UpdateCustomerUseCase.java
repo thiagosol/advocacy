@@ -13,8 +13,8 @@ public class UpdateCustomerUseCase {
 
     public void execute(Customer customerUpdate){
         var customer = customerGateway.getById(customerUpdate.getId());
-        customerUpdate.setContacts(customer.getContacts());
-        customerGateway.update(customerUpdate);
+        customer.update(customerUpdate);
+        customerGateway.update(customer);
     }
 
 }

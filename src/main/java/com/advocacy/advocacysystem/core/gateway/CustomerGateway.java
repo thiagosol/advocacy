@@ -15,4 +15,6 @@ public interface CustomerGateway {
     public Customer getById(Long id);
 
     public Page<Customer> getAll(Pageable pageable);
+
+    void saveContacts(Customer customer);
 }

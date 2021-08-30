@@ -31,7 +31,7 @@ public class Lawsuit {
             joinColumns = { @JoinColumn(name = "lawsuit_id") },
             inverseJoinColumns = { @JoinColumn(name = "customer_id") }
     )
-    Set<Customer> projects = new HashSet<>();
+    Set<Customer> customers = new HashSet<>();
 
     private LocalDateTime createdAt;
 

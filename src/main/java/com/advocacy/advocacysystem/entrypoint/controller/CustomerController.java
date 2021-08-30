@@ -1,16 +1,14 @@
 package com.advocacy.advocacysystem.entrypoint.controller;
 
 import com.advocacy.advocacysystem.core.domain.Customer;
-import com.advocacy.advocacysystem.core.usecase.customer.AddContactsToCustomerUseCase;
+import com.advocacy.advocacysystem.core.usecase.customer.AddContactToCustomerUseCase;
 import com.advocacy.advocacysystem.core.usecase.customer.CreateCustomerUseCase;
 import com.advocacy.advocacysystem.core.usecase.customer.GetAllCustomerUseCase;
 import com.advocacy.advocacysystem.core.usecase.customer.UpdateCustomerUseCase;
-import com.advocacy.advocacysystem.entrypoint.dto.ContactCreateDTO;
-import com.advocacy.advocacysystem.entrypoint.dto.CustomerCreateDTO;
-import com.advocacy.advocacysystem.entrypoint.dto.CustomerUpdateDTO;
+import com.advocacy.advocacysystem.entrypoint.dto.customer.ContactCreateDTO;
+import com.advocacy.advocacysystem.entrypoint.dto.customer.CustomerCreateDTO;
+import com.advocacy.advocacysystem.entrypoint.dto.customer.CustomerUpdateDTO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,35 +30,34 @@ public class CustomerController {
 
     private final CreateCustomerUseCase createCustomerUseCase;
     private final UpdateCustomerUseCase updateCustomerUseCase;
-    private final AddContactsToCustomerUseCase addContactsToCustomerUseCase;
+    private final AddContactToCustomerUseCase addContactToCustomerUseCase;
     private final GetAllCustomerUseCase getAllCustomerUseCase;
 
     @ApiOperation(value = "Retorna todos os clientes", response = Page.class)
     @GetMapping
-    public ResponseEntity<Page<Customer>> getAllCustomer(@PageableDefault(direction = Sort.Direction.ASC, sort = "name") Pageable page){
+    public ResponseEntity<Page<Customer>> getAllCustomers(@PageableDefault(direction = Sort.Direction.ASC, sort = "name") Pageable page){
         return ResponseEntity.status(HttpStatus.CREATED).body(getAllCustomerUseCase.execute(page));
     }
 
     @ApiOperation(value = "Cria novo cliente", response = Customer.class)
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody CustomerCreateDTO customerCreateDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(createCustomerUseCase.execute(customerCreateDTO.getCustomer()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createCustomerUseCase.execute(customerCreateDTO.toCustomer()));
     }
 
     @ApiOperation(value = "Atualiza cliente")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCustomer(@PathVariable("id") Long customerId,
                                                @RequestBody CustomerUpdateDTO customerUpdateDTO){
-        updateCustomerUseCase.execute(customerUpdateDTO.getCustomer(customerId));
+        updateCustomerUseCase.execute(customerUpdateDTO.toCustomer(customerId));
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "Adiciona Contatos ao cliente")
     @PostMapping("/{id}/add-contacts")
     public ResponseEntity<Void> addContacts(@PathVariable("id") Long customerId,
-                                               @RequestBody Set<ContactCreateDTO> contacts){
-        var contactsCreate = contacts.stream().map(ContactCreateDTO::getContact).collect(Collectors.toSet());
-        addContactsToCustomerUseCase.execute(customerId, contactsCreate);
+                                               @RequestBody ContactCreateDTO contact){
+        addContactToCustomerUseCase.execute(customerId, contact.toContact());
         return ResponseEntity.ok().build();
     }
 }

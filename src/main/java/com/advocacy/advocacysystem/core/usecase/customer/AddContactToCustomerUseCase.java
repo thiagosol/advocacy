@@ -9,14 +9,14 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class AddContactsToCustomerUseCase {
+public class AddContactToCustomerUseCase {
 
     private final CustomerGateway customerGateway;
 
-    public void execute(Long customerId, Set<Contact> contacts){
+    public void execute(Long customerId, Contact contact){
         var customer = customerGateway.getById(customerId);
-        customer.addContacts(contacts);
-        customerGateway.save(customer);
+        customer.addContacts(contact);
+        customerGateway.saveContacts(customer);
     }
 
 }

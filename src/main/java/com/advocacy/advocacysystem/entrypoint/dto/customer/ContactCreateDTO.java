@@ -1,4 +1,4 @@
-package com.advocacy.advocacysystem.entrypoint.dto;
+package com.advocacy.advocacysystem.entrypoint.dto.customer;
 
 import com.advocacy.advocacysystem.core.domain.Contact;
 import com.advocacy.advocacysystem.core.domain.enums.TypeContact;
@@ -17,7 +17,7 @@ public class ContactCreateDTO {
     @ApiModelProperty("Tipo do contato")
     private TypeContact typeContact;
 
-    public Contact getContact(){
+    public Contact toContact(){
         return new Contact(null, this.value, this.description, this.typeContact, null);
     }
 }
