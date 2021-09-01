@@ -18,6 +18,10 @@ public class ContactCreateDTO {
     private TypeContact typeContact;
 
     public Contact toContact(){
-        return new Contact(null, this.value, this.description, this.typeContact, null);
+        return Contact.builder()
+                .value(this.value)
+                .description(this.description)
+                .typeContact(this.typeContact)
+                .build();
     }
 }

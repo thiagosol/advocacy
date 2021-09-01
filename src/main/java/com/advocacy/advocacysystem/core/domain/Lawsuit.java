@@ -1,9 +1,7 @@
 package com.advocacy.advocacysystem.core.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.advocacy.advocacysystem.core.domain.base.BaseModel;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,15 +9,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Lawsuit {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+public class Lawsuit extends BaseModel<Lawsuit> {
 
     private Long number;
 
@@ -35,6 +30,7 @@ public class Lawsuit {
 
     private LocalDateTime createdAt;
 
+    @Override
     public void update(Lawsuit lawsuitUpdate) {
         this.number = lawsuitUpdate.getNumber();
         this.description = lawsuitUpdate.getDescription();

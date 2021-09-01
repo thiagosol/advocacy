@@ -1,6 +1,10 @@
 package com.advocacy.advocacysystem.entrypoint.controller;
 
 import com.advocacy.advocacysystem.core.domain.Lawsuit;
+import com.advocacy.advocacysystem.core.usecase.base.CreateBaseUseCase;
+import com.advocacy.advocacysystem.core.usecase.base.GetAllBaseUseCase;
+import com.advocacy.advocacysystem.core.usecase.base.GetBaseByIdUseCase;
+import com.advocacy.advocacysystem.core.usecase.base.UpdateBaseUseCase;
 import com.advocacy.advocacysystem.core.usecase.lawsuit.*;
 
 import com.advocacy.advocacysystem.entrypoint.dto.lawsuit.LawsuitCreateDTO;
@@ -24,10 +28,10 @@ import java.util.Set;
 @Api("Processos")
 public class LawsuitController {
 
-    private final CreateLawsuitUseCase createLawsuitUseCase;
-    private final GetAllLawsuitUseCase getAllLawsuitUseCase;
-    private final GetLawsuitByIdUseCase getLawsuitByIdUseCase;
-    private final UpdateLawsuitUseCase updateLawsuitUseCase;
+    private final CreateBaseUseCase<Lawsuit> createLawsuitUseCase;
+    private final GetAllBaseUseCase<Lawsuit> getAllLawsuitUseCase;
+    private final GetBaseByIdUseCase<Lawsuit> getLawsuitByIdUseCase;
+    private final UpdateBaseUseCase<Lawsuit> updateLawsuitUseCase;
     private final AddCustomersToLawsuitUseCase addCustomersToLawsuitUseCase;
     private final RemoveCustomersToLawsuitUseCase removeCustomersToLawsuitUseCase;
     private final GetLawsuitByCustomerUseCase getLawsuitByCustomerUseCase;

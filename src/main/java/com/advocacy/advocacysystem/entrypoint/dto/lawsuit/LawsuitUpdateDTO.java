@@ -15,6 +15,11 @@ public class LawsuitUpdateDTO {
     private String description;
 
     public Lawsuit toLawsuit(Long id) {
-        return new Lawsuit(id, number, description, null, null);
+        var lawsuit = Lawsuit.builder()
+                .number(number)
+                .description(description)
+                .build();
+        lawsuit.setId(id);
+        return lawsuit;
     }
 }

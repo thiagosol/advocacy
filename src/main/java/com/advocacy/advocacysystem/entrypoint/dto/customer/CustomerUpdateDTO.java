@@ -19,6 +19,12 @@ public class CustomerUpdateDTO {
     private String cpfCnpj;
 
     public Customer toCustomer(Long customerId) {
-        return new Customer(customerId, this.name, this.cpfCnpj, null, null, LocalDateTime.now());
+        var customer = Customer.builder()
+                .name(this.name)
+                .cpfCnpj(this.cpfCnpj)
+                .createdAt(LocalDateTime.now())
+                .build();
+        customer.setId(customerId);
+        return customer;
     }
 }

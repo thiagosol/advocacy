@@ -23,6 +23,11 @@ public class CustomerCreateDTO {
 
     public Customer toCustomer() {
         var contacts = this.contacts.stream().map(ContactCreateDTO::toContact).collect(Collectors.toSet());
-        return new Customer(null, this.name, this.cpfCnpj, contacts, new HashSet<>(), LocalDateTime.now());
+        return Customer.builder()
+                .name(this.name)
+                .cpfCnpj(this.cpfCnpj)
+                .contacts(contacts)
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 }

@@ -1,13 +1,12 @@
 package com.advocacy.advocacysystem.entrypoint.controller;
 
-import com.advocacy.advocacysystem.core.usecase.contact.RemoveContactsUseCase;
+import com.advocacy.advocacysystem.core.domain.Contact;
+import com.advocacy.advocacysystem.core.usecase.base.RemoveBaseUseCase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController("ContactController")
@@ -15,12 +14,12 @@ import java.util.Set;
 @Api("Contatos")
 public class ContactController {
 
-    private final RemoveContactsUseCase removeContactsToCustomerUseCase;
+    private final RemoveBaseUseCase<Contact> removeContactUseCase;
 
-    @ApiOperation(value = "Remove contatos")
-    @DeleteMapping()
-    public ResponseEntity<Void> removeContacts(@RequestBody Set<Long> contactIds){
-        removeContactsToCustomerUseCase.execute(contactIds);
+    @ApiOperation(value = "Remove contato")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removeContact(@PathVariable("id") Long contactId){
+        removeContactUseCase.execute(contactId);
         return ResponseEntity.ok().build();
     }
 }

@@ -1,11 +1,8 @@
 package com.advocacy.advocacysystem.core.domain;
 
+import com.advocacy.advocacysystem.core.domain.base.BaseModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.web.bind.annotation.Mapping;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,21 +12,18 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Customer {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+public class Customer extends BaseModel<Customer> {
 
     private String name;
 
     private String cpfCnpj;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",  cascade=CascadeType.PERSIST)
     private Set<Contact> contacts = new HashSet<>();
 
     @JsonIgnore
@@ -52,6 +46,11 @@ public class Customer {
         this.id = id;
     }
 
+    @Override
+    public void update(Customer customerUpdate) {
+        this.cpfCnpj = customerUpdate.getCpfCnpj();
+        this.name = customerUpdate.getName();
+    }
     public Set<Contact> getContacts() {
         return Collections.unmodifiableSet(contacts);
     }
@@ -67,11 +66,6 @@ public class Customer {
 
     private void updateReferenceContacts(){
         this.contacts.forEach(contact -> contact.setCustomer(this));
-    }
-
-    public void update(Customer customerUpdate) {
-        this.cpfCnpj = customerUpdate.getCpfCnpj();
-        this.name = customerUpdate.getName();
     }
 
     @Override

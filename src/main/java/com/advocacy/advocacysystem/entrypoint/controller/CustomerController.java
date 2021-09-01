@@ -1,10 +1,11 @@
 package com.advocacy.advocacysystem.entrypoint.controller;
 
 import com.advocacy.advocacysystem.core.domain.Customer;
+import com.advocacy.advocacysystem.core.usecase.base.CreateBaseUseCase;
+import com.advocacy.advocacysystem.core.usecase.base.GetAllBaseUseCase;
+import com.advocacy.advocacysystem.core.usecase.base.GetBaseByIdUseCase;
+import com.advocacy.advocacysystem.core.usecase.base.UpdateBaseUseCase;
 import com.advocacy.advocacysystem.core.usecase.customer.AddContactToCustomerUseCase;
-import com.advocacy.advocacysystem.core.usecase.customer.CreateCustomerUseCase;
-import com.advocacy.advocacysystem.core.usecase.customer.GetAllCustomerUseCase;
-import com.advocacy.advocacysystem.core.usecase.customer.UpdateCustomerUseCase;
 import com.advocacy.advocacysystem.entrypoint.dto.customer.ContactCreateDTO;
 import com.advocacy.advocacysystem.entrypoint.dto.customer.CustomerCreateDTO;
 import com.advocacy.advocacysystem.entrypoint.dto.customer.CustomerUpdateDTO;
@@ -19,24 +20,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @RequiredArgsConstructor
 @RestController("CustomerController")
 @RequestMapping("/v1/customers")
 @Api("Clientes")
 public class CustomerController {
 
-    private final CreateCustomerUseCase createCustomerUseCase;
-    private final UpdateCustomerUseCase updateCustomerUseCase;
+    private final CreateBaseUseCase<Customer> createCustomerUseCase;
+    private final UpdateBaseUseCase<Customer> updateCustomerUseCase;
+    private final GetAllBaseUseCase<Customer> getAllCustomerUseCase;
+    private final GetBaseByIdUseCase<Customer> getCustomerByIdUseCase;
     private final AddContactToCustomerUseCase addContactToCustomerUseCase;
-    private final GetAllCustomerUseCase getAllCustomerUseCase;
+
 
     @ApiOperation(value = "Retorna todos os clientes", response = Page.class)
     @GetMapping
     public ResponseEntity<Page<Customer>> getAllCustomers(@PageableDefault(direction = Sort.Direction.ASC, sort = "name") Pageable page){
         return ResponseEntity.status(HttpStatus.CREATED).body(getAllCustomerUseCase.execute(page));
+    }
+
+    @ApiOperation(value = "Retorna o cliente por id", response = Customer.class)
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long customerId){
+        return ResponseEntity.status(HttpStatus.CREATED).body(getCustomerByIdUseCase.execute(customerId));
     }
 
     @ApiOperation(value = "Cria novo cliente", response = Customer.class)

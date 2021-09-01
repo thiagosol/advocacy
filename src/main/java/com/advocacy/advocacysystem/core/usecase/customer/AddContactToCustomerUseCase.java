@@ -5,8 +5,6 @@ import com.advocacy.advocacysystem.core.gateway.CustomerGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
 @Component
 @RequiredArgsConstructor
 public class AddContactToCustomerUseCase {

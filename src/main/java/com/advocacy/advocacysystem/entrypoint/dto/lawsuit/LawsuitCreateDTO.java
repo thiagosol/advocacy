@@ -25,6 +25,11 @@ public class LawsuitCreateDTO {
 
     public Lawsuit toLawsuit() {
         var customers = this.customerIds.stream().map(Customer::new).collect(Collectors.toSet());
-        return new Lawsuit(null, number, description, customers, LocalDateTime.now());
+        return Lawsuit.builder()
+                .number(number)
+                .description(description)
+                .customers(customers)
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 }
