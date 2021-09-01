@@ -5,8 +5,6 @@ import com.advocacy.advocacysystem.core.gateway.ContactGateway;
 import com.advocacy.advocacysystem.infrastructure.repository.ContactRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
 @Component
 public class ContactGatewayImpl extends BaseGatewayImpl<Contact> implements ContactGateway {
 
@@ -17,8 +15,4 @@ public class ContactGatewayImpl extends BaseGatewayImpl<Contact> implements Cont
         this.contactRepository = contactRepository;
     }
 
-    @Override
-    public void remove(Set<Contact> contacts) {
-        contactRepository.deleteAll(contacts);
-    }
 }
