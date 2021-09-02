@@ -4,10 +4,12 @@ import com.advocacy.advocacysystem.core.domain.Lawyer;
 import com.advocacy.advocacysystem.core.domain.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class LawyerCreateDTO {
 
 
