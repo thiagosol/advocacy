@@ -7,7 +7,7 @@ import com.advocacy.advocacysystem.core.usecase.base.GetBaseByIdUseCase;
 import com.advocacy.advocacysystem.core.usecase.base.UpdateBaseUseCase;
 import com.advocacy.advocacysystem.entrypoint.dto.lawyer.LawyerCreateDTO;
 import com.advocacy.advocacysystem.entrypoint.dto.lawyer.LawyerUpdateDTO;
-import com.advocacy.advocacysystem.entrypoint.manage.PasswordManager;
+import com.advocacy.advocacysystem.entrypoint.manager.PasswordManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

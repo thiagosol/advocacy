@@ -1,4 +1,4 @@
-package com.advocacy.advocacysystem.entrypoint.manage;
+package com.advocacy.advocacysystem.entrypoint.manager;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
