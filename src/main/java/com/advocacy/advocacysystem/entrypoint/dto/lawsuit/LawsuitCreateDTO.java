@@ -2,6 +2,7 @@ package com.advocacy.advocacysystem.entrypoint.dto.lawsuit;
 
 import com.advocacy.advocacysystem.core.domain.Customer;
 import com.advocacy.advocacysystem.core.domain.Lawsuit;
+import com.advocacy.advocacysystem.core.domain.Lawyer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
@@ -20,6 +21,9 @@ public class LawsuitCreateDTO {
     @ApiModelProperty("Descrição do Processo")
     private String description;
 
+    @ApiModelProperty("Advogado do Processo")
+    private Long lawyerId;
+
     @ApiModelProperty("Clientes do Processo")
     Set<Long> customerIds = new HashSet<>();
 
@@ -29,6 +33,7 @@ public class LawsuitCreateDTO {
                 .number(number)
                 .description(description)
                 .customers(customers)
+                .lawyer(new Lawyer(lawyerId))
                 .createdAt(LocalDateTime.now())
                 .build();
     }

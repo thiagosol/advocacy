@@ -1,6 +1,7 @@
 package com.advocacy.advocacysystem.core.domain;
 
 import com.advocacy.advocacysystem.core.domain.base.BaseModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,12 +29,16 @@ public class Lawsuit extends BaseModel<Lawsuit> {
     )
     Set<Customer> customers = new HashSet<>();
 
+    @ManyToOne
+    private Lawyer lawyer;
+
     private LocalDateTime createdAt;
 
     @Override
     public void update(Lawsuit lawsuitUpdate) {
         this.number = lawsuitUpdate.getNumber();
         this.description = lawsuitUpdate.getDescription();
+        this.lawyer = lawsuitUpdate.getLawyer();
     }
 
     public void addCustomers(Set<Customer> customers) {

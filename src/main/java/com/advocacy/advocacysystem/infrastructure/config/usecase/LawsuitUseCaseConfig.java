@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class LawsuitUseCaseConfig {
 
-    private LawsuitGateway lawsuitGateway;
+    private final LawsuitGateway lawsuitGateway;
 
     @Bean
     @Qualifier("createLawsuitUseCase")
