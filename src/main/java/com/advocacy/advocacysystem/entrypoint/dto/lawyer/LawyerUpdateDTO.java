@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +33,7 @@ public class LawyerUpdateDTO {
     @ApiModelProperty("Nova Senha do Usuário, obrigatório se 'flChangeUserPassword = true'")
     private String password;
 
-    public Lawyer toLawyer(Long id) {
+    public Lawyer toLawyer(Long id, PasswordEncoder passwordEncoder) {
         User user = new User();
 
         var lawyer = Lawyer.builder()
@@ -44,7 +45,7 @@ public class LawyerUpdateDTO {
 
         if(flChangeUserName) user.setUser(userName.trim());
 
-        if(flChangeUserPassword) user.setPassword(password.trim());
+        if(flChangeUserPassword) user.setPassword(password, passwordEncoder);
 
         if(flChangeUserName || flChangeUserPassword) lawyer.setUser(user);
 

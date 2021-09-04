@@ -7,7 +7,6 @@ import com.advocacy.advocacysystem.core.usecase.base.GetBaseByIdUseCase;
 import com.advocacy.advocacysystem.core.usecase.base.UpdateBaseUseCase;
 import com.advocacy.advocacysystem.entrypoint.dto.lawyer.LawyerCreateDTO;
 import com.advocacy.advocacysystem.entrypoint.dto.lawyer.LawyerUpdateDTO;
-import com.advocacy.advocacysystem.entrypoint.manager.PasswordManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -27,7 +27,7 @@ import java.util.Optional;
 @Api("Advogados")
 public class LawyerController {
 
-    private final PasswordManager passwordManager;
+    private final PasswordEncoder passwordEncoder;
 
     private final CreateBaseUseCase<Lawyer> createLawyerUseCase;
     private final GetAllBaseUseCase<Lawyer> getAllLawyerUseCase;
@@ -49,17 +49,14 @@ public class LawyerController {
     @ApiOperation(value = "Cria novo advogado", response = Lawyer.class)
     @PostMapping
     public ResponseEntity<Lawyer> create(@RequestBody LawyerCreateDTO lawyerCreateDTO){
-        lawyerCreateDTO.setPassword(passwordManager.encode(lawyerCreateDTO.getPassword()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(createLawyerUseCase.execute(lawyerCreateDTO.toLawyer()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createLawyerUseCase.execute(lawyerCreateDTO.toLawyer(passwordEncoder)));
     }
 
     @ApiOperation(value = "Atualiza advogado")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateLawsuit(@PathVariable("id") Long id,
                                                @RequestBody LawyerUpdateDTO lawyerUpdateDTO){
-        Optional.ofNullable(lawyerUpdateDTO.getPassword()).ifPresent((update) -> lawyerUpdateDTO.setPassword(passwordManager.encode(lawyerUpdateDTO.getPassword())));
-        lawyerUpdateDTO.setPassword(passwordManager.encode(lawyerUpdateDTO.getPassword()));
-        updateLawyerUseCase.execute(lawyerUpdateDTO.toLawyer(id));
+        updateLawyerUseCase.execute(lawyerUpdateDTO.toLawyer(id, passwordEncoder));
         return ResponseEntity.ok().build();
     }
 

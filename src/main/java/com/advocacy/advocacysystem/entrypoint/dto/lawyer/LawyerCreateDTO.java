@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -27,8 +28,8 @@ public class LawyerCreateDTO {
     @ApiModelProperty("Senha do Usuário")
     private String password;
 
-    public Lawyer toLawyer() {
-        var user = User.builder().user(userName.trim()).password(password.trim()).createdAt(LocalDateTime.now()).build();
+    public Lawyer toLawyer(PasswordEncoder passwordEncoder) {
+        var user = new User(userName, password, passwordEncoder);
         return Lawyer.builder()
                 .name(name)
                 .cpf(cpf)

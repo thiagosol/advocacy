@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -13,13 +14,10 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class User extends BaseModel<User> implements UserDetails {
 
+    @Setter
     private String user;
 
     @JsonIgnore
@@ -40,12 +38,25 @@ public class User extends BaseModel<User> implements UserDetails {
 
     public User(Long id) {
         this.id = id;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public User(){}
+
+    public User(String userName, String password, PasswordEncoder passwordEncoder) {
+        this.user = userName;
+        this.password = passwordEncoder.encode(password);
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public void setPassword(String password, PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
     }
 
     @Override
-    public void update(User lawyerUpdate) {
-        this.password = lawyerUpdate.getPassword();
-        this.user = lawyerUpdate.getUser();
+    public void update(User userUpdate) {
+        if(Objects.nonNull(userUpdate.getUser())) this.user = userUpdate.getUser();
+        if(Objects.nonNull(userUpdate.getPassword())) this.password = userUpdate.getPassword();
     }
 
     @Override

@@ -46,8 +46,7 @@ public class Lawyer extends BaseModel<Lawyer> {
 
         if(Objects.nonNull(lawyerUpdate.getUser())){
             var userUpdate = lawyerUpdate.getUser();
-            if(Objects.nonNull(userUpdate.getUser())) this.user.setUser(userUpdate.getUser());
-            if(Objects.nonNull(userUpdate.getPassword())) this.user.setPassword(userUpdate.getPassword());
+            this.user.update(userUpdate);
         }
     }
 
