@@ -11,7 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 		"com.advocacy.advocacysystem.core.*",
 		"com.advocacy.advocacysystem.infrastructure.*"
 })
-@EnableSwagger2
 public class AdvocacySystemApplication {
 
 	public static void main(String[] args) {

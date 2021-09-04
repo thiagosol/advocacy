@@ -1,5 +1,11 @@
 jwt:
   secret: ${JWT_SECRET:S3CR3T1098532473S3CR3T81235192S3CR3TS3CR3TS3CR3T712531293012321A163JBV6S3CR3TS3C3CR3TTS3CR3TS3CR3T71}
+
+advocacy:
+  user-admin:
+    name: ${USER_ADMIN:admin}
+    password: ${USER_ADMIN_PASSWORD:12345}
+
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

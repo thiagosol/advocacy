@@ -1,40 +1,44 @@
 package com.advocacy.advocacysystem.infrastructure.command;
 
+import com.advocacy.advocacysystem.core.domain.Lawyer;
 import com.advocacy.advocacysystem.core.domain.User;
+import com.advocacy.advocacysystem.infrastructure.repository.LawyerRepository;
 import com.advocacy.advocacysystem.infrastructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
-public class DataLoaderCommand implements CommandLineRunner {
-
-    @Value("${advocacy.user-admin.name}")
-    private String userAdminName;
-
-    @Value("${advocacy.user-admin.password}")
-    private String userAdminPassword;
+@Profile("test")
+public class DataLoaderTestCommand implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LawyerRepository lawyerRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
-        insertUserAdm();
+        insertLawyer();
     }
 
-    private void insertUserAdm() {
-        var user = new User(userAdminName, passwordEncoder.encode(userAdminPassword), null, LocalDateTime.now());
+    private void insertLawyer() {
+        String password = "12345";
+        var user = new User("advogado0", passwordEncoder.encode(password), null, LocalDateTime.now());
+        var lawyer = new Lawyer("Advogado 0", "32486945059", user, LocalDateTime.now());
+        user.setLawyer(lawyer);
+
         var userOptional = userRepository.findByUser(user.getUsername());
         if(userOptional.isEmpty()){
-            userRepository.save(user);
+            lawyerRepository.save(lawyer);
         }
     }
 }
