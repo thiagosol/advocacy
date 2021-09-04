@@ -3,6 +3,7 @@ package com.advocacy.advocacysystem.entrypoint.dto.lawyer;
 import com.advocacy.advocacysystem.core.domain.Lawyer;
 import com.advocacy.advocacysystem.core.domain.User;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class LawyerUpdateDTO {
 
     @ApiModelProperty("Nome do Advogado")
