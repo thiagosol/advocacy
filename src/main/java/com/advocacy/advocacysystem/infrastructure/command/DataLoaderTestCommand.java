@@ -32,10 +32,8 @@ public class DataLoaderTestCommand implements CommandLineRunner {
 
     private void insertLawyer() {
         String password = "12345";
-        var user = new User("advogado0", passwordEncoder.encode(password), null, LocalDateTime.now());
+        var user = new User("advogado0", "12345", passwordEncoder);
         var lawyer = new Lawyer("Advogado 0", "32486945059", user, LocalDateTime.now());
-        user.setLawyer(lawyer);
-
         var userOptional = userRepository.findByUser(user.getUsername());
         if(userOptional.isEmpty()){
             lawyerRepository.save(lawyer);

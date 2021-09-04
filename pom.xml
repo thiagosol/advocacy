@@ -105,6 +105,7 @@
 						<exclude>com/advocacy/**/*Exception.*</exclude>
 						<exclude>com/advocacy/**/*Config.*</exclude>
 						<exclude>com/advocacy/**/*Filter.*</exclude>
+						<exclude>com/advocacy/**/*Command.*</exclude>
 						<exclude>com/advocacy/**/AdvocacySystemApplication.*</exclude>
 					</excludes>
 				</configuration>

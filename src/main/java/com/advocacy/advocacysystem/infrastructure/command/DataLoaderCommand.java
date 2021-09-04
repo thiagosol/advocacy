@@ -31,7 +31,7 @@ public class DataLoaderCommand implements CommandLineRunner {
     }
 
     private void insertUserAdm() {
-        var user = new User(userAdminName, passwordEncoder.encode(userAdminPassword), null, LocalDateTime.now());
+        var user = new User(userAdminName, userAdminPassword, passwordEncoder);
         var userOptional = userRepository.findByUser(user.getUsername());
         if(userOptional.isEmpty()){
             userRepository.save(user);
