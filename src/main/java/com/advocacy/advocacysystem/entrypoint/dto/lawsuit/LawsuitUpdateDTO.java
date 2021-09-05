@@ -3,9 +3,13 @@ package com.advocacy.advocacysystem.entrypoint.dto.lawsuit;
 import com.advocacy.advocacysystem.core.domain.Lawsuit;
 import com.advocacy.advocacysystem.core.domain.Lawyer;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LawsuitUpdateDTO {
 
 

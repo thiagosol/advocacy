@@ -18,7 +18,7 @@ public class LawyerUpdateDTO {
     @ApiModelProperty("Nome do Advogado")
     private String name;
 
-    @ApiModelProperty("Cpf do Advogadp")
+    @ApiModelProperty("Cpf do Advogado")
     private String cpf;
 
     @ApiModelProperty("Se existe alteração no nome de usuário, default = false")

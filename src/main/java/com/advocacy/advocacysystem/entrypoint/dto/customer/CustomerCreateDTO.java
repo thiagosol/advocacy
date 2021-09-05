@@ -2,7 +2,9 @@ package com.advocacy.advocacysystem.entrypoint.dto.customer;
 
 import com.advocacy.advocacysystem.core.domain.Customer;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -10,6 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerCreateDTO {
 
     @ApiModelProperty("Nome do Cliente")

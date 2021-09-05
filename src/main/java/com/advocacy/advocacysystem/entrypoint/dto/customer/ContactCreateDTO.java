@@ -3,9 +3,13 @@ package com.advocacy.advocacysystem.entrypoint.dto.customer;
 import com.advocacy.advocacysystem.core.domain.Contact;
 import com.advocacy.advocacysystem.core.domain.enums.TypeContact;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ContactCreateDTO {
 
     @ApiModelProperty("Contato")

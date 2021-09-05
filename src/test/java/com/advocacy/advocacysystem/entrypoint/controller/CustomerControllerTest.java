@@ -1,8 +1,10 @@
 package com.advocacy.advocacysystem.entrypoint.controller;
 
-import com.advocacy.advocacysystem.core.domain.Lawyer;
-import com.advocacy.advocacysystem.entrypoint.dto.lawyer.LawyerCreateDTO;
-import com.advocacy.advocacysystem.entrypoint.dto.lawyer.LawyerUpdateDTO;
+import com.advocacy.advocacysystem.core.domain.Customer;
+import com.advocacy.advocacysystem.core.domain.enums.TypeContact;
+import com.advocacy.advocacysystem.entrypoint.dto.customer.ContactCreateDTO;
+import com.advocacy.advocacysystem.entrypoint.dto.customer.CustomerCreateDTO;
+import com.advocacy.advocacysystem.entrypoint.dto.customer.CustomerUpdateDTO;
 import com.advocacy.advocacysystem.entrypoint.dto.user.UserLoginRequestDTO;
 import com.advocacy.advocacysystem.entrypoint.dto.user.UserLoginResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,31 +28,32 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
 @SpringBootTest(properties = {"spring.profiles.active=test"},
                 webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class LawyerControllerTest {
+class CustomerControllerTest {
 
     private static final String USER_NAME_ADMIN = "admin";
     private static final String PASSWORD_ADMIN = "12345";
 
-    private static final String NAME = "Advogado 1";
-    private static final String NAME_UPDATE = "Advogado 1 Update";
-    private static final String CPF = "12345678911";
-    private static final String CPF_UPDATE = "12345678911";
+    private static final String NAME = "Cliente 1";
+    private static final String CPF_CNPJ = "00000000001";
+    private static final Set<ContactCreateDTO> CONTACTS = Set.of(new ContactCreateDTO("email@email.com", "Email", TypeContact.EMAIL));
 
-    private static final String USER_NAME = "advogado1";
-    private static final String USER_NAME_UPDATE = "advogado1up";
-
-    private static final String PASSWORD = "12345";
-    private static final String PASSWORD_UPDATE = "1234";
+    private static final String NAME_UPDATE = "Cliente 1 Update";
+    private static final String CPF_CNPJ_UPDATE = "00000000002";
 
     private static final String LOCAL_HOST = "localhost";
+
 
     @LocalServerPort
     private int port;
@@ -64,64 +67,65 @@ class LawyerControllerTest {
     @Order(1)
     void createTest() {
         login();
-        LawyerCreateDTO lawyerCreateDTO = new LawyerCreateDTO(NAME, CPF, USER_NAME, PASSWORD);
-        HttpEntity entity = new HttpEntity<>(lawyerCreateDTO, headers);
-        ResponseEntity<Lawyer> responseEntity = testRestTemplate.exchange(createURLWithPort(
-                "/v1/lawyers"), HttpMethod.POST, entity, Lawyer.class);
+        CustomerCreateDTO customerCreateDTO = new CustomerCreateDTO(NAME, CPF_CNPJ, CONTACTS);
+        HttpEntity entity = new HttpEntity<>(customerCreateDTO, headers);
+        ResponseEntity<Customer> responseEntity = testRestTemplate.exchange(createURLWithPort(
+                "/v1/customers"), HttpMethod.POST, entity, Customer.class);
 
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
         assertTrue(responseEntity.getBody().getName().equals(NAME));
-        assertTrue(responseEntity.getBody().getCpf().equals(CPF));
-        assertTrue(responseEntity.getBody().getUser().getUsername().equals(USER_NAME));
+        assertTrue(responseEntity.getBody().getCpfCnpj().equals(CPF_CNPJ));
+        assertFalse(responseEntity.getBody().getContacts().isEmpty());
         idCreated = responseEntity.getBody().getId();
     }
 
     @Test
     @Order(2)
-    void updateWithOutUpdateUserTest() {
+    void updateTest() {
         login();
-        LawyerUpdateDTO lawyerUpdateDTO = new LawyerUpdateDTO(NAME_UPDATE, CPF_UPDATE, false, false, null, null);
-        HttpEntity entity = new HttpEntity<>(lawyerUpdateDTO, headers);
+        CustomerUpdateDTO customerUpdateDTO = new CustomerUpdateDTO(NAME_UPDATE, CPF_CNPJ_UPDATE);
+        HttpEntity entity = new HttpEntity<>(customerUpdateDTO, headers);
         ResponseEntity<Void> responseEntity = testRestTemplate.exchange(createURLWithPort(
-                "/v1/lawyers/"+idCreated), HttpMethod.PUT, entity, Void.class);
+                "/v1/customers/"+idCreated), HttpMethod.PUT, entity, Void.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     @Order(3)
-    void updateWithUpdateUserTest() {
-        login();
-        LawyerUpdateDTO lawyerUpdateDTO = new LawyerUpdateDTO(NAME_UPDATE, CPF_UPDATE, true, true, USER_NAME_UPDATE, PASSWORD_UPDATE);
-        HttpEntity entity = new HttpEntity<>(lawyerUpdateDTO, headers);
-        ResponseEntity<Void> responseEntity = testRestTemplate.exchange(createURLWithPort(
-                "/v1/lawyers/"+idCreated), HttpMethod.PUT, entity, Void.class);
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-    }
-
-    @Test
-    @Order(4)
     void getByIdTest() throws JsonProcessingException {
         login();
         HttpEntity entity = new HttpEntity<>(null, headers);
-        ResponseEntity<Lawyer> responseEntity = testRestTemplate.exchange(createURLWithPort(
-                "/v1/lawyers/" + idCreated), HttpMethod.GET, entity, Lawyer.class);
+        ResponseEntity<Customer> responseEntity = testRestTemplate.exchange(createURLWithPort(
+                "/v1/customers/" + idCreated), HttpMethod.GET, entity, Customer.class);
         assertNotNull(responseEntity.getBody());
         assertEquals(idCreated, responseEntity.getBody().getId());
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void getAllTest() throws JsonProcessingException {
         login();
         HttpEntity entity = new HttpEntity<>(null, headers);
         ResponseEntity<String> responseEntity = testRestTemplate.exchange(createURLWithPort(
-                "/v1/lawyers"), HttpMethod.GET, entity, String.class);
+                "/v1/customers"), HttpMethod.GET, entity, String.class);
         var page = objectMapper.readValue(responseEntity.getBody(), ObjectNode.class);
-        var lawyers = (List<Lawyer>) objectMapper.readValue(page.get("content").toString(), ArrayList.class);
-        assertNotNull(lawyers);
-        assertFalse(lawyers.isEmpty());
-        assertTrue(lawyers.size() > 0);
+        var customers = (List<Customer>) objectMapper.readValue(page.get("content").toString(), ArrayList.class);
+        assertNotNull(customers);
+        assertFalse(customers.isEmpty());
+        assertEquals(1, customers.size());
+    }
+
+    @Test
+    @Order(5)
+    void addContactsTest() {
+        login();
+        ContactCreateDTO  contactCreateDTO = new ContactCreateDTO("11999999999", "WhatsApp", TypeContact.TELEPHONE);
+        HttpEntity entity = new HttpEntity<>(contactCreateDTO, headers);
+        ResponseEntity<Void> responseEntity = testRestTemplate.exchange(createURLWithPort(
+                "/v1/customers/"+idCreated+"/add-contact"), HttpMethod.POST, entity, Void.class);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     private String createURLWithPort(String uri)
