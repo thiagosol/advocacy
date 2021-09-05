@@ -113,7 +113,6 @@ class CustomerControllerTest {
         var customers = (List<Customer>) objectMapper.readValue(page.get("content").toString(), ArrayList.class);
         assertNotNull(customers);
         assertFalse(customers.isEmpty());
-        assertEquals(1, customers.size());
     }
 
     @Test
